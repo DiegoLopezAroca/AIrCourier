@@ -97,3 +97,11 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Ignore Unity package cache (causes large files like libburst-llvm)
+[Ll]ibrary/PackageCache/
+
+# Allowlist Packages folder to keep manifest and lock files
+[Pp]ackages/*
+![Pp]ackages/manifest.json
+![Pp]ackages/packages-lock.json
