@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 52ccf4460ba17864699f75b9ea4fa983
+timeCreated: 1505698278
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Shaders/StandardShader [DoubleSided].shader
+  uploadId: 338400

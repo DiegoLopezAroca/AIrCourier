@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 7bd997d62e514164cbed277ee56f4286
+timeCreated: 1509394689
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/UIPack/Scripts/PAUI_Joystick.cs
+  uploadId: 338400

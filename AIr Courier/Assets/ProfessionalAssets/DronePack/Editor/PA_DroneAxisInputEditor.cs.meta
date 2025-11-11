@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 5bd2d7e7ec0dfb84ca2512e8e4c036d8
+timeCreated: 1514592609
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Editor/PA_DroneAxisInputEditor.cs
+  uploadId: 338400

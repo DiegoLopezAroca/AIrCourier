@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 0e60a5390c4ebd24eb8ce8dd0f9d2e66
+timeCreated: 1514592609
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Editor/PA_DroneCameraEditor.cs
+  uploadId: 338400

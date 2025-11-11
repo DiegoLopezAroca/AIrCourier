@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 61cc5d3dad73918489b8df668e9cc552
+timeCreated: 1513018218
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 8400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Misc/RenderTexture [DroneCamera].renderTexture
+  uploadId: 338400

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ddead8d18bb044b44951720ea8eefa89
+timeCreated: 1512423890
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Scripts/PA_DroneCamera.cs
+  uploadId: 338400

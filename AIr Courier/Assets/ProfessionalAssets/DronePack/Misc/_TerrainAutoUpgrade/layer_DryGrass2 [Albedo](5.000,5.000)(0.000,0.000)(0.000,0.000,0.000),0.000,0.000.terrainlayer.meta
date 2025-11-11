@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 877e7cd4d51b42645b777b9f7e078ac1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Misc/_TerrainAutoUpgrade/layer_DryGrass2
+    [Albedo](5.000,5.000)(0.000,0.000)(0.000,0.000,0.000),0.000,0.000.terrainlayer
+  uploadId: 338400

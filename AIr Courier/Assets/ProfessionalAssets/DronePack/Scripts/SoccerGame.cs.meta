@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ce3ba5108e7dbe3458d58a48a22b6e85
+timeCreated: 1524079744
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Scripts/SoccerGame.cs
+  uploadId: 338400

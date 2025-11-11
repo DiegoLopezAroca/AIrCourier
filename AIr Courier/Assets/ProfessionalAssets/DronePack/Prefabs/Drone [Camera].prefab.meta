@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9fb71646028ac3c439c7f66106d7b95e
+timeCreated: 1504811732
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Prefabs/Drone [Camera].prefab
+  uploadId: 338400

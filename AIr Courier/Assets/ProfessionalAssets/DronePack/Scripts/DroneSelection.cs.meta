@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 64e24e201a5673849bde75c6abe2a305
+timeCreated: 1562612000
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Scripts/DroneSelection.cs
+  uploadId: 338400

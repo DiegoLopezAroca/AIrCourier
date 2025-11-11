@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 56627653cbab45044a4e9ec69d14bf44
+timeCreated: 1512600117
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Scripts/PA_DroneController.cs
+  uploadId: 338400

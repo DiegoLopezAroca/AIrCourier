@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 68e5627b54007c2479fa2f34bf8e12c9
+timeCreated: 1504655972
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Prefabs/Spark [Particle Effect].prefab
+  uploadId: 338400

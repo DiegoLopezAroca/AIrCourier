@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9a4a645aa9708c24faf2fa8a77b36307
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117641
+  packageName: FREE PACK
+  packageVersion: 2.0
+  assetPath: Assets/ProfessionalAssets/DronePack/Scripts/PAVR_DroneRemote.cs
+  uploadId: 338400
