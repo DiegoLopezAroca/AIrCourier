@@ -76455,8 +76455,8 @@ MonoBehaviour:
     NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 03000000030000000300000000000000
-    VectorActionSize: 03000000030000000300000000000000
+      BranchSizes: 03000000030000000300000003000000
+    VectorActionSize: 03000000030000000300000003000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -76485,7 +76485,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   controller: {fileID: 1784810921}
-  go_target: {fileID: 656654076}
+  target: {fileID: 656654077}
 --- !u!4 &1784810920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6666647001093093517, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
@@ -76504,8 +76504,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   forwardSpeed: 15
-  verticalSpeed: 12
-  turnSpeed: 100
+  strafeSpeed: 5
+  verticalSpeed: 8
+  turnSpeed: 90
   rb: {fileID: 1110110439}
 --- !u!114 &1784810927
 MonoBehaviour:
@@ -76520,11 +76521,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.RayPerceptionSensorComponent3D
   m_SensorName: RayPerceptionSensor
-  m_DetectableTags: []
+  m_DetectableTags:
+  - 
   m_RaysPerDirection: 5
   m_MaxRayDegrees: 180
   m_SphereCastRadius: 2.56
-  m_RayLength: 124
+  m_RayLength: 20
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
