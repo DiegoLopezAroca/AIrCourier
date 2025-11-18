@@ -16,6 +16,16 @@ public class DroneAgent : Agent
     private Quaternion initialDroneRotation;
     private Vector3 initialTargetPosition;
 
+    private float lastDistanceToTarget;
+    
+    [Header("Reward settings")]
+    public float distanceRewardScale = 0.01f;
+    public float reachTargetReward = 1.0f;
+    public float crashPenalty = -1.0f;
+    public float timePenalty = -0.001f;
+
+    public float targetReachThreshold = 2.0f;
+
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,6 +53,11 @@ public class DroneAgent : Agent
         {
             go_target.transform.position = initialTargetPosition;
         }
+
+        if (go_target != null)
+        {
+            lastDistanceToTarget = Vector3.Distance(transform.position, go_target.transform.position);
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -56,21 +71,23 @@ public class DroneAgent : Agent
         }
 
         // Posición relativa al target
-        Vector3 relPos = go_target.transform.position - transform.position;
+        Vector3 relPos = go_target.transform.position - controller.transform.position;
         sensor.AddObservation(relPos / 50f);
 
         // Velocidad del dron
         sensor.AddObservation(rb.linearVelocity / 10f);
 
         // Altura
-        sensor.AddObservation(transform.position.y / 20f);
+        sensor.AddObservation(controller.transform.position.y / 20f);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        int forwardAction  = actions.DiscreteActions[0];
-        int verticalAction = actions.DiscreteActions[2];
-        int yawAction      = actions.DiscreteActions[3];
+        var da = actions.DiscreteActions;
+
+        int forwardAction  = da[0]; // Branch 0
+        int verticalAction = da[1]; // Branch 1
+        int yawAction      = da[2]; // Branch 2
 
         float forward = 0f;
         if (forwardAction == 1) forward = 1f;
@@ -84,11 +101,37 @@ public class DroneAgent : Agent
         if (yawAction == 1) yaw = 1f;
         else if (yawAction == 2) yaw = -1f;
 
-        // Aplicar entradas al controlador del dron
         controller.SetInput(forward, up, yaw);
 
-        // Penalización por step
-        AddReward(-0.001f);
+        ComputeStepReward();
+    }
+
+
+    private void ComputeStepReward() 
+    {
+        if (go_target == null) { return; }
+
+        // Distancia actual al objetivo
+        float currentDistance = Vector3.Distance(controller.transform.position, go_target.transform.position);
+
+        // Progreso (si es positivo, nos hemos acercado)
+        float distanceDelta = lastDistanceToTarget - currentDistance;
+
+        // Recompensa por progreso
+        AddReward(distanceDelta * distanceRewardScale);
+
+        // Penalización por tiempo
+        AddReward(timePenalty);
+
+        // Guardar para el siguiente step
+        lastDistanceToTarget = currentDistance;
+
+        // Comprobar si hemos llegado
+        if (currentDistance < targetReachThreshold)
+        {
+            AddReward(reachTargetReward);
+            EndEpisode();
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -103,12 +146,12 @@ public class DroneAgent : Agent
         float up = 0f;
         if (Input.GetKey(KeyCode.Q)) up = 1f;
         else if (Input.GetKey(KeyCode.E)) up = -1f;
-        a[2] = up > 0.1f ? 1 : (up < -0.1f ? 2 : 0);
+        a[1] = up > 0.1f ? 1 : (up < -0.1f ? 2 : 0);
 
         // Yaw (A/D)
         float yaw = 0f;
         if (Input.GetKey(KeyCode.A)) yaw = -1f;
         else if (Input.GetKey(KeyCode.D)) yaw = 1f;
-        a[3] = yaw > 0.1f ? 1 : (yaw < -0.1f ? 2 : 0);
+        a[2] = yaw > 0.1f ? 1 : (yaw < -0.1f ? 2 : 0);
     }
 }

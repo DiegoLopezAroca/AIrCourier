@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1763487118",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\anaconda\\envs\\mlagents\\Scripts\\mlagents-learn hyperpams.yaml --run-id=DroneDeliveryRun4",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.9.1+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1763487181"
+    },
+    "total": 63.00622250000015,
+    "count": 1,
+    "self": 0.02440269999897282,
+    "children": {
+        "run_training.setup": {
+            "total": 0.11602090000087628,
+            "count": 1,
+            "self": 0.11602090000087628
+        },
+        "TrainerController.start_learning": {
+            "total": 62.8657989000003,
+            "count": 1,
+            "self": 0.0003464999990683282,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 62.86533640000016,
+                    "count": 1,
+                    "self": 62.86533640000016
+                },
+                "TrainerController._save_models": {
+                    "total": 0.0001160000010713702,
+                    "count": 1,
+                    "self": 0.0001160000010713702
+                }
+            }
+        }
+    }
+}
