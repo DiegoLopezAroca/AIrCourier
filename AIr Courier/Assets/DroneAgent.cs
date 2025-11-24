@@ -16,6 +16,8 @@ public class DroneAgent : Agent
     private Quaternion initialDroneRotation;
     private Vector3 initialTargetPosition;
 
+    [SerializeField] Transform spawnPoint; 
+
     private float lastDistanceToTarget;
     
     [Header("Reward settings")]
@@ -31,8 +33,8 @@ public class DroneAgent : Agent
         rb = GetComponent<Rigidbody>();
 
         // Guardamos posición y rotación iniciales del dron
-        initialDronePosition = transform.position;
-        initialDroneRotation = transform.rotation;
+        initialDronePosition = spawnPoint.position;
+        initialDroneRotation = spawnPoint.rotation;
 
         // Guardamos la posición inicial del GameObject target
         if (go_target != null)
