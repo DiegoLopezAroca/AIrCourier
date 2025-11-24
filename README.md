@@ -1,6 +1,62 @@
-# MOMO SHOW
-conda create -n mlagents python=3.10.12 && conda activate mlagents
-python -m pip install mlagents==1.1.0
+# AICourier — ML-Agents Installation & Training Guide
 
-RUN: 
-mlagents-learn hyperpams.yaml --run-id=DroneDeliveryRun4
+This guide provides complete instructions for installing **Unity ML-Agents**, setting up the Python environment, and running training using your `hyperparams.yaml` file.
+
+---
+
+## Prerequisites
+
+Make sure you have the following installed:
+
+- **Conda** (Anaconda or Miniconda)
+- **Unity Editor** (2021 LTS or another version compatible with ML-Agents 1.1.0)
+- **Git** (optional)
+
+---
+
+## 1. Create Conda Environment
+
+Create a new environment using Python **3.10.12**:
+
+```bash
+conda create -n mlagents python=3.10.12
+conda activate mlagents
+```
+
+## 2. Install ML-Agents
+Install **ML-Agents version 1.1.0**:
+
+```bash
+python -m pip install mlagents==1.1.0
+```
+
+## 3. Verify Installation
+Run:
+```bash
+mlagents-learn --help
+```
+## 4. Unity Setup for the Project
+1. Open the project in Unity.
+2. Install or verify that the **ML-Agents Unity package** is present (Package Manager or manual import).
+3. Ensure the scene is ready for training.
+
+## 5. Running Training
+Make sure the `hyperparams.yaml` file is inside the project folder.
+Start training with (each training should have a different id):
+```bash
+mlagents-learn hyperparams.yaml --run-id=DroneDeliveryRunId
+```
+Then press **Play** button inside Unity.
+The training results will be stored in (inside each subtraining folder identified with its unique identifier): 
+```bash
+results/DroneDeliveryRun/
+```
+
+## 5. Project Structure 
+```bash
+AIrCourier/
+├── AIr Courier    # Unity Project
+├── README.md      # README.md file of the Github repository
+├── hyperpams.yaml # Hyperparameter configuration file for training
+└── results        # Training results storage file
+```
