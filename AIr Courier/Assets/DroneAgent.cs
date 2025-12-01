@@ -22,8 +22,8 @@ public class DroneAgent : Agent
     
     [Header("Reward settings")]
     public float distanceRewardScale = 0.01f;
-    public float reachTargetReward = 1.0f;
-    public float crashPenalty = -1.0f;
+    public float reachTargetReward = 100.0f;
+    public float crashPenalty = -10.0f;
     public float timePenalty = -0.001f;
 
     public float targetReachThreshold = 2.0f;
@@ -124,6 +124,12 @@ public class DroneAgent : Agent
 
         // Penalización por tiempo
         AddReward(timePenalty);
+
+        // Penalización por colisiones
+        if (controller.IsColliding)
+        {
+            AddReward(crashPenalty);
+        }
 
         // Guardar para el siguiente step
         lastDistanceToTarget = currentDistance;
