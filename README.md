@@ -1,4 +1,4 @@
-# AICourier — ML-Agents Installation & Training Guide
+<img width="1092" height="653" alt="image" src="https://github.com/user-attachments/assets/d44cc014-b0e7-41a3-a989-7e2adefc3a0c" /># AICourier — ML-Agents Installation & Training Guide
 
 This guide provides complete instructions for installing **Unity ML-Agents**, setting up the Python environment, and running training using your `hyperparams.yaml` file.
 
@@ -28,6 +28,7 @@ Install **ML-Agents version 1.1.0**:
 
 ```bash
 python -m pip install mlagents==1.1.0
+pip install onnx
 ```
 
 ## 3. Verify Installation
@@ -52,7 +53,12 @@ The training results will be stored in (inside each subtraining folder identifie
 results/DroneDeliveryRun/
 ```
 
-## 5. Project Structure 
+To run an ML-Agents training using an executable (Build) instead of the Unity editor:
+```bash
+mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.exe" --run-id=DroneDeliveryRunId --no-graphics
+```
+
+## 6. Project Structure 
 ```bash
 AIrCourier/
 ├── AIr Courier    # Unity Project
