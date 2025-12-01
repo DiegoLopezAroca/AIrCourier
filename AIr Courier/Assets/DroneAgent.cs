@@ -3,13 +3,16 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 using PA_DronePack;
+using System.Collections.Generic;
 
 public class DroneAgent : Agent
 {
     public SimpleDroneController controller;
 
     // GameObject target (correcto)
-    public GameObject go_target;
+    [Header("Training Elements")]
+    public List<GameObject> possible_targets;
+    public GameObject current_target;
 
     private Rigidbody rb;
     private Vector3 initialDronePosition;
@@ -25,8 +28,9 @@ public class DroneAgent : Agent
     public float reachTargetReward = 100.0f;
     public float crashPenalty = -10.0f;
     public float timePenalty = -0.001f;
-
     public float targetReachThreshold = 2.0f;
+    
+    private bool isColliding = false;
 
     public override void Initialize()
     {
@@ -37,9 +41,10 @@ public class DroneAgent : Agent
         initialDroneRotation = spawnPoint.rotation;
 
         // Guardamos la posición inicial del GameObject target
-        if (go_target != null)
+        if (possible_targets.Count > 0)
         {
-            initialTargetPosition = go_target.transform.position;
+            current_target = possible_targets[Random.Range(0, possible_targets.Count)];
+            initialTargetPosition = current_target.transform.position;
         }
     }
 
@@ -50,21 +55,23 @@ public class DroneAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
+        isColliding = false;
+
         // Reset del target
-        if (go_target != null)
+        if (current_target != null)
         {
-            go_target.transform.position = initialTargetPosition;
+            current_target.transform.position = initialTargetPosition;
         }
 
-        if (go_target != null)
+        if (current_target != null)
         {
-            lastDistanceToTarget = Vector3.Distance(transform.position, go_target.transform.position);
+            lastDistanceToTarget = Vector3.Distance(transform.position, current_target.transform.position);
         }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (go_target == null)
+        if (current_target == null)
         {
             sensor.AddObservation(Vector3.zero); // relPos
             sensor.AddObservation(Vector3.zero); // velocity
@@ -73,7 +80,7 @@ public class DroneAgent : Agent
         }
 
         // Posición relativa al target
-        Vector3 relPos = go_target.transform.position - controller.transform.position;
+        Vector3 relPos = current_target.transform.position - controller.transform.position;
         sensor.AddObservation(relPos / 50f);
 
         // Velocidad del dron
@@ -108,13 +115,21 @@ public class DroneAgent : Agent
         ComputeStepReward();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Verificamos si chocamos contra algo que en este caso hemos etiquetado como "Edificio"
+        if (collision.gameObject.CompareTag("Edificio"))
+        {
+            isColliding = true;
+        }
+    }
 
     private void ComputeStepReward() 
     {
-        if (go_target == null) { return; }
+        if (current_target == null) { return; }
 
         // Distancia actual al objetivo
-        float currentDistance = Vector3.Distance(controller.transform.position, go_target.transform.position);
+        float currentDistance = Vector3.Distance(controller.transform.position, current_target.transform.position);
 
         // Progreso (si es positivo, nos hemos acercado)
         float distanceDelta = lastDistanceToTarget - currentDistance;
@@ -126,9 +141,10 @@ public class DroneAgent : Agent
         AddReward(timePenalty);
 
         // Penalización por colisiones
-        if (controller.IsColliding)
+        if (isColliding)
         {
             AddReward(crashPenalty);
+            isColliding = false;
         }
 
         // Guardar para el siguiente step
