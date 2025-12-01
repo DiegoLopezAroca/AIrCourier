@@ -28,6 +28,7 @@ Install **ML-Agents version 1.1.0**:
 
 ```bash
 python -m pip install mlagents==1.1.0
+pip install onnx
 ```
 
 ## 3. Verify Installation
