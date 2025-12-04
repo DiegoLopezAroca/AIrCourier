@@ -34,6 +34,8 @@ pip install onnx
 In case this installation shows dependency problems, try with following guide:
 [Installation | ML Agents](https://docs.unity3d.com/Packages/com.unity.ml-agents@4.0/manual/Installation.html)
 
+It may still give you a bug in ML-Agents + Unity 6 with references to Google.Protobuf. If that is your situation edit the manifest.json file inside the Packages folder in your project changing the version of "com.unity.ml-agents" to "4.0.0".
+
 ## 3. Verify Installation
 Run:
 ```bash
