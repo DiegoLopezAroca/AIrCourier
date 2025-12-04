@@ -31,6 +31,9 @@ python -m pip install mlagents==1.1.0
 pip install onnx
 ```
 
+In case this installation shows dependency problems, try with following guide:
+[Installation | ML Agents](https://docs.unity3d.com/Packages/com.unity.ml-agents@4.0/manual/Installation.html)
+
 ## 3. Verify Installation
 Run:
 ```bash
