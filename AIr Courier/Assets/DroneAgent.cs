@@ -39,12 +39,25 @@ public class DroneAgent : Agent
         // Guardamos posición y rotación iniciales del dron
         initialDronePosition = spawnPoint.position;
         initialDroneRotation = spawnPoint.rotation;
+    }
+
+    private void RandomTarget()
+    {
+        // Desactivamos todos los posibles targets
+        foreach (GameObject target in possible_targets)
+        {
+            if (target != null)
+            {
+                target.SetActive(false);
+            }
+        }
 
         // Guardamos la posición inicial del GameObject target
         if (possible_targets.Count > 0)
         {
             current_target = possible_targets[Random.Range(0, possible_targets.Count)];
             initialTargetPosition = current_target.transform.position;
+            current_target.SetActive(true);
         }
     }
 
@@ -67,6 +80,8 @@ public class DroneAgent : Agent
         {
             lastDistanceToTarget = Vector3.Distance(transform.position, current_target.transform.position);
         }
+
+        RandomTarget();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -145,6 +160,7 @@ public class DroneAgent : Agent
         {
             AddReward(crashPenalty);
             isColliding = false;
+            EndEpisode();
         }
 
         // Guardar para el siguiente step

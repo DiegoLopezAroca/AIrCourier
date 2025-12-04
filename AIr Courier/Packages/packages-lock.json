@@ -87,13 +87,14 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.barracuda": {
-      "version": "3.0.0",
+    "com.unity.ai.inference": {
+      "version": "2.3.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.burst": "1.6.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.burst": "1.8.17",
+        "com.unity.dt.app-ui": "1.3.1",
+        "com.unity.collections": "2.4.3",
         "com.unity.modules.imageconversion": "1.0.0"
       },
       "url": "https://packages.unity.com"
@@ -125,6 +126,18 @@
         "com.unity.test-framework": "1.4.6",
         "com.unity.nuget.mono-cecil": "1.11.5",
         "com.unity.test-framework.performance": "3.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.dt.app-ui": {
+      "version": "1.3.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.androidjni": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.screencapture": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -169,15 +182,15 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents": {
-      "version": "2.0.2",
+      "version": "file:C:/Users/diego/Carrera/4º/RL/ml-agents_backup/com.unity.ml-agents",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
-        "com.unity.barracuda": "2.0.0",
+        "com.unity.ai.inference": "2.2.1",
+        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.modules.physics": "1.0.0"
+      }
     },
     "com.unity.multiplayer.center": {
       "version": "1.0.0",
