@@ -1,7 +1,4 @@
 # AICourier — ML-Agents Installation & Training Guide
-<p>
-  <img width="1092" height="653" alt="image" src="https://github.com/user-attachments/assets/d44cc014-b0e7-41a3-a989-7e2adefc3a0c"/>
-</p>
 
 This guide provides complete instructions for installing `Unity ML-Agents`, setting up the Python environment, and running training using your `hyperparams.yaml` file.
 
