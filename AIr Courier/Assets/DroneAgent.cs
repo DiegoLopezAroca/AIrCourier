@@ -4,6 +4,7 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 using PA_DronePack;
 using System.Collections.Generic;
+using System;
 
 public class DroneAgent : Agent
 {
@@ -18,19 +19,26 @@ public class DroneAgent : Agent
     private Vector3 initialDronePosition;
     private Quaternion initialDroneRotation;
     private Vector3 initialTargetPosition;
+    public LayerMask obstacleLayers;
 
-    [SerializeField] Transform spawnPoint; 
+
+    [SerializeField] Transform spawnPoint;
 
     private float lastDistanceToTarget;
-    
+
     [Header("Reward settings")]
     public float distanceRewardScale = 0.01f;
     public float reachTargetReward = 100.0f;
-    public float crashPenalty = -10.0f;
+    public float crashPenalty = -0.5f; // penalización por choque
     public float timePenalty = -0.001f;
     public float targetReachThreshold = 2.0f;
-    
-    private bool isColliding = false;
+    public float minDistanceRewardScale = 0.02f;   // recompensa por mejorar el récord
+    public float moveAwayPenaltyScale = 0.008f;  // penaliza alejarse del récord
+
+    [Header("Distance tracking")]
+    private float minDistanceToTarget;
+    private float maxAwayFromBest;
+    private float maxDistanceToTarget;
 
     public override void Initialize()
     {
@@ -55,7 +63,7 @@ public class DroneAgent : Agent
         // Guardamos la posición inicial del GameObject target
         if (possible_targets.Count > 0)
         {
-            current_target = possible_targets[Random.Range(0, possible_targets.Count)];
+            current_target = possible_targets[UnityEngine.Random.Range(0, possible_targets.Count)];
             initialTargetPosition = current_target.transform.position;
             current_target.SetActive(true);
         }
@@ -68,20 +76,20 @@ public class DroneAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        isColliding = false;
-
-        // Reset del target
-        if (current_target != null)
-        {
-            current_target.transform.position = initialTargetPosition;
-        }
-
-        if (current_target != null)
-        {
-            lastDistanceToTarget = Vector3.Distance(transform.position, current_target.transform.position);
-        }
-
         RandomTarget();
+
+        if (current_target != null)
+        {
+            float d = Vector3.Distance(
+                controller.transform.position,
+                current_target.transform.position
+            );
+
+            lastDistanceToTarget = d;
+            minDistanceToTarget = d; // la distancia record a la que ha estado
+            maxAwayFromBest = 0f;
+            maxDistanceToTarget = lastDistanceToTarget;
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -96,13 +104,13 @@ public class DroneAgent : Agent
 
         // Posición relativa al target
         Vector3 relPos = current_target.transform.position - controller.transform.position;
-        sensor.AddObservation(relPos / 50f);
+        sensor.AddObservation(relPos);
 
         // Velocidad del dron
-        sensor.AddObservation(rb.linearVelocity / 10f);
+        sensor.AddObservation(rb.linearVelocity);
 
         // Altura
-        sensor.AddObservation(controller.transform.position.y / 20f);
+        sensor.AddObservation(controller.transform.position.y);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -132,10 +140,10 @@ public class DroneAgent : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Verificamos si chocamos contra algo que en este caso hemos etiquetado como "Edificio"
-        if (collision.gameObject.CompareTag("Edificio"))
+        if (((1 << collision.gameObject.layer) & obstacleLayers.value) != 0)
         {
-            isColliding = true;
+            AddReward(crashPenalty);
+            EndEpisode();
         }
     }
 
@@ -145,33 +153,54 @@ public class DroneAgent : Agent
 
         // Distancia actual al objetivo
         float currentDistance = Vector3.Distance(controller.transform.position, current_target.transform.position);
+        float improvement = minDistanceToTarget - currentDistance;
 
-        // Progreso (si es positivo, nos hemos acercado)
-        float distanceDelta = lastDistanceToTarget - currentDistance;
-
-        // Recompensa por progreso
-        AddReward(distanceDelta * distanceRewardScale);
-
-        // Penalización por tiempo
-        AddReward(timePenalty);
-
-        // Penalización por colisiones
-        if (isColliding)
+        if (improvement > 0f)
         {
-            AddReward(crashPenalty);
-            isColliding = false;
-            EndEpisode();
+            float extra = improvement * minDistanceRewardScale;
+            //float reward = MathF.Tanh(extra * 5.0f); // suavizamos la recompensa usando tanh
+
+            //print("Improvement, reward added: " + extra);
+            AddReward(extra);
+
+            minDistanceToTarget = currentDistance;
+            maxAwayFromBest = 0f; // reiniciar alejamiento
+        }
+        else
+        {
+            // Se ha alejado del récord
+            float remoteness = (currentDistance - minDistanceToTarget) - 1.0f; // le meto un metro de tolerancia para que pueda rodear objetos sin penalizar
+            if (remoteness > maxAwayFromBest)
+            {
+                float penalty = (remoteness - maxAwayFromBest) * moveAwayPenaltyScale;
+                //float penalty = MathF.Tanh(extra * moveAwayPenaltyScale * 5.0f); // provamos a usar tanh para suavizar y penalizar menos a lo bestia y penalizar mas cuando se aleja mucho
+
+                AddReward(-penalty);
+                
+                maxAwayFromBest = remoteness;
+                //print("Moved away from best, negative reward: " + -penalty);
+            }            
         }
 
-        // Guardar para el siguiente step
-        lastDistanceToTarget = currentDistance;
+        float speed = rb.linearVelocity.magnitude;
+        if (speed < 0.2f)
+        {
+            AddReward(-0.0002f);
+        }
+        // Penalización por tiempo
+        AddReward(timePenalty);
 
         // Comprobar si hemos llegado
         if (currentDistance < targetReachThreshold)
         {
+            //print("Target reached!");
             AddReward(reachTargetReward);
             EndEpisode();
+            return;
         }
+
+        // Guardar para el siguiente step
+        lastDistanceToTarget = currentDistance;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

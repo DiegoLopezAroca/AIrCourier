@@ -76462,7 +76462,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: DroneDelivery
   TeamId: 0
   m_UseChildSensors: 1
@@ -76485,7 +76485,19 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   controller: {fileID: 1784810921}
-  target: {fileID: 656654077}
+  possible_targets: []
+  current_target: {fileID: 0}
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  spawnPoint: {fileID: 0}
+  distanceRewardScale: 0.01
+  reachTargetReward: 100
+  crashPenalty: -0.5
+  timePenalty: -0.001
+  targetReachThreshold: 2
+  minDistanceRewardScale: 0.02
+  moveAwayPenaltyScale: 0.008
 --- !u!4 &1784810920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6666647001093093517, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
@@ -76504,7 +76516,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   forwardSpeed: 15
-  strafeSpeed: 5
   verticalSpeed: 8
   turnSpeed: 90
   rb: {fileID: 1110110439}
