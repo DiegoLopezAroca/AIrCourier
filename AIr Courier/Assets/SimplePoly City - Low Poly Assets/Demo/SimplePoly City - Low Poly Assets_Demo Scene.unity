@@ -80802,11 +80802,11 @@ MonoBehaviour:
     m_Bits: 8
   spawnPoint: {fileID: 339703600}
   distanceRewardScale: 0.01
-  reachTargetReward: 1
-  crashPenalty: -1
+  reachTargetReward: 100
+  crashPenalty: -0.005
   timePenalty: -0.001
   targetReachThreshold: 2
-  minDistanceRewardScale: 0.02
+  minDistanceRewardScale: 0.05
   moveAwayPenaltyScale: 0.008
 --- !u!4 &1784810920 stripped
 Transform:

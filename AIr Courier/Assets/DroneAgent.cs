@@ -29,10 +29,10 @@ public class DroneAgent : Agent
     [Header("Reward settings")]
     public float distanceRewardScale = 0.01f;
     public float reachTargetReward = 100.0f;
-    public float crashPenalty = -0.5f; // penalización por choque
+    public float crashPenalty = -0.005f; // penalización por choque
     public float timePenalty = -0.001f;
     public float targetReachThreshold = 2.0f;
-    public float minDistanceRewardScale = 0.02f;   // recompensa por mejorar el récord
+    public float minDistanceRewardScale = 0.05f;   // recompensa por mejorar el récord
     public float moveAwayPenaltyScale = 0.008f;  // penaliza alejarse del récord
 
     [Header("Distance tracking")]
