@@ -47,7 +47,13 @@ mlagents-learn --help
 3. Ensure the scene is ready for training.
 
 ## 5. Running Training
-Make sure the `hyperparams.yaml` file is inside the project folder.
+In case there is an available `GPU`, we highly suggest to use it to considerably speed up the training process. Being configured with just a simple flag in the end of the command:
+
+```bash
+<training command> --torch-device=cuda
+```
+
+## 5.1 Standard Trainingake sure the `hyperparams.yaml` file is inside the project folder.
 Start training with (each training should have a different id):
 ```bash
 mlagents-learn hyperparams.yaml --run-id=DroneDeliveryRunId
@@ -57,14 +63,22 @@ The training results will be stored in (inside each subtraining folder identifie
 ```bash
 results/DroneDeliveryRun/
 ```
-
+### 5.2 Training with an Executable (Recommended)
 To run an ML-Agents training using an executable (Build) instead of the Unity editor:
+
+#### 5.2.1 Executable Training in Windows
+We will need the specific executable file for Windows (`.exe`) in order to start the training process: 
 ```bash
 mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.exe" --run-id=DroneDeliveryRunId --no-graphics
 ```
-
-## 6. Project Structure 
+#### 5.2.2 Executable Training in Linux
+The extension of the executable file will differ in Linux, being now `.x86_64`:
 ```bash
+mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.x86_64" --run-id=DroneDeliveryRunId --no-graphics
+```
+# 6. Project Structure 
+```bash
+
 AIrCourier/
 ├── AIr Courier    # Unity Project
 ├── README.md      # README.md file of the Github repository
