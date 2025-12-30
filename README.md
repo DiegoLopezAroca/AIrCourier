@@ -10,7 +10,8 @@ Make sure you have the following installed:
 
 - **Conda** (Anaconda or Miniconda)
 - **Unity Editor** (2021 LTS or another version compatible with ML-Agents 1.1.0)
-- **Git** (optional)
+- **Git** (Optional to clone the repository)
+- **Cuda** (To use the GPU if available)
 
 ---
 
@@ -47,36 +48,48 @@ mlagents-learn --help
 3. Ensure the scene is ready for training.
 
 ## 5. Running Training
+We will use a certain flag to hide the graphical interface during training. Even if it is optional, it will speed the process considerably.
+
+```bash
+<training command> --no-graphics
+```
+
 In case there is an available `GPU`, we highly suggest to use it to considerably speed up the training process. Being configured with just a simple flag in the end of the command:
 
 ```bash
 <training command> --torch-device=cuda
 ```
 
-## 5.1 Standard Trainingake sure the `hyperparams.yaml` file is inside the project folder.
-Start training with (each training should have a different id):
+To speed up even more the training process, we will add a parallelization flag. Depending on the available `CPU`'s number of cores, the number indicated in the flag will have to change:
+
+```bash
+<training command> --num-envs=<number of CPU cores>
+```
+### 5.1 Standard Training
+Make sure the `hyperparams.yaml` file is inside the project folder.Start training with (each training should have a different id)::
 ```bash
 mlagents-learn hyperparams.yaml --run-id=DroneDeliveryRunId
 ```
-Then press **Play** button inside Unity.
-The training results will be stored in (inside each subtraining folder identified with its unique identifier): 
+
+The training results will be stored in (inside each subtraining folder identified with its unique identifier) when pressing the `Play` button inside the editor: 
+
 ```bash
 results/DroneDeliveryRun/
 ```
-### 5.2 Training with an Executable (Recommended)
-To run an ML-Agents training using an executable (Build) instead of the Unity editor:
+### 5.2 Training with an Executable (**Recommended**)
+To run an ML-Agents training using an executable (Build) instead of the Unity editor alongisde all the flags mentioned above:
 
 #### 5.2.1 Executable Training in Windows
 We will need the specific executable file for Windows (`.exe`) in order to start the training process: 
 ```bash
-mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.exe" --run-id=DroneDeliveryRunId --no-graphics
+mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.exe" --run-id=DroneDeliveryRunId --no-graphics --torch-device=cuda --num-envs=<num_cores>
 ```
 #### 5.2.2 Executable Training in Linux
 The extension of the executable file will differ in Linux, being now `.x86_64`:
 ```bash
-mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.x86_64" --run-id=DroneDeliveryRunId --no-graphics
+mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.x86_64" --run-id=DroneDeliveryRunId --no-graphics --torch-device=cuda --num-envs=<num_cores>
 ```
-# 6. Project Structure 
+## 6. Project Structure 
 ```bash
 
 AIrCourier/
