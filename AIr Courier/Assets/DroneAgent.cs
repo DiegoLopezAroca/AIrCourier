@@ -98,28 +98,41 @@ public class DroneAgent : Agent
         {
             sensor.AddObservation(Vector3.zero); // relPos
             sensor.AddObservation(Vector3.zero); // velocity
+            sensor.AddObservation(Vector3.forward); // forward
+            sensor.AddObservation(Vector3.up); // rotation
             sensor.AddObservation(0f);           // altura
+            //print("Warning: current_target is null in CollectObservations");
             return;
         }
 
         // Posición relativa al target
         Vector3 relPos = current_target.transform.position - controller.transform.position;
-        sensor.AddObservation(relPos);
+        Vector3 relLocal = controller.transform.InverseTransformDirection(relPos);
+        sensor.AddObservation(relLocal);
 
         // Velocidad del dron
-        sensor.AddObservation(rb.linearVelocity);
+        Vector3 velLocal = controller.transform.InverseTransformDirection(rb.linearVelocity);
+        sensor.AddObservation(velLocal);
 
-        // Altura
+        // Altura, orientación
         sensor.AddObservation(controller.transform.position.y);
+
+        Vector3 forwardLocal = controller.transform.InverseTransformDirection(controller.transform.forward);
+        Vector3 upLocal = controller.transform.InverseTransformDirection(controller.transform.up);
+
+        sensor.AddObservation(forwardLocal);
+        sensor.AddObservation(upLocal);
+        //print("Funciona");
+
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
         var da = actions.DiscreteActions;
 
-        int forwardAction  = da[0]; // Branch 0
+        int forwardAction = da[0]; // Branch 0
         int verticalAction = da[1]; // Branch 1
-        int yawAction      = da[2]; // Branch 2
+        int yawAction = da[2]; // Branch 2
 
         float forward = 0f;
         if (forwardAction == 1) forward = 1f;
@@ -134,6 +147,7 @@ public class DroneAgent : Agent
         else if (yawAction == 2) yaw = -1f;
 
         controller.SetInput(forward, up, yaw);
+        //print("Actions received: forward " + forward + ", up " + up + ", yaw " + yaw);
 
         ComputeStepReward();
     }
@@ -143,23 +157,31 @@ public class DroneAgent : Agent
         if (((1 << collision.gameObject.layer) & obstacleLayers.value) != 0)
         {
             AddReward(crashPenalty);
+            //print("Reward of this episode: " + GetCumulativeReward());
             EndEpisode();
         }
     }
 
-    private void ComputeStepReward() 
+    private void ComputeStepReward()
     {
         if (current_target == null) { return; }
 
         // Distancia actual al objetivo
         float currentDistance = Vector3.Distance(controller.transform.position, current_target.transform.position);
-        float improvement = minDistanceToTarget - currentDistance;
 
+        float distanceDelta = lastDistanceToTarget - currentDistance;
+        distanceDelta = Mathf.Clamp(distanceDelta, -0.2f, 0.2f); //una especie de tangente hiperbolica para limitar la recompensa por paso
+        
+        if (Mathf.Abs(distanceDelta) < 0.01f) distanceDelta = 0f; //para eliminar las vibraciones de unity
+        AddReward(distanceDelta * distanceRewardScale);
+        
+        //if (distanceDelta * distanceRewardScale > 0 || distanceDelta * distanceRewardScale < 0) { print("Distance delta: " + distanceDelta + ", reward: " + (distanceDelta * distanceRewardScale)); }
+
+        // Recompensa por mejorar el récord de distancia mínima
+        float improvement = minDistanceToTarget - currentDistance;
         if (improvement > 0f)
         {
             float extra = improvement * minDistanceRewardScale;
-            //float reward = MathF.Tanh(extra * 5.0f); // suavizamos la recompensa usando tanh
-
             //print("Improvement, reward added: " + extra);
             AddReward(extra);
 
@@ -173,17 +195,13 @@ public class DroneAgent : Agent
             if (remoteness > maxAwayFromBest)
             {
                 float penalty = (remoteness - maxAwayFromBest) * moveAwayPenaltyScale;
-                //float penalty = MathF.Tanh(extra * moveAwayPenaltyScale * 5.0f); // provamos a usar tanh para suavizar y penalizar menos a lo bestia y penalizar mas cuando se aleja mucho
-
                 AddReward(-penalty);
-                
                 maxAwayFromBest = remoteness;
-                //print("Moved away from best, negative reward: " + -penalty);
-            }            
+                //print("Moved away from best, penalty applied: " + -penalty);
+            }
         }
 
-        float speed = rb.linearVelocity.magnitude;
-        if (speed < 0.2f)
+        if (currentDistance > 5f && rb.linearVelocity.magnitude < 0.2f)
         {
             AddReward(-0.0002f);
         }
@@ -195,6 +213,7 @@ public class DroneAgent : Agent
         {
             //print("Target reached!");
             AddReward(reachTargetReward);
+            //print("Reward of this episode: " + GetCumulativeReward());
             EndEpisode();
             return;
         }

@@ -21613,6 +21613,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 610009047}
+  - component: {fileID: 610009048}
   m_Layer: 0
   m_Name: DroneCameraHolder
   m_TagString: MainCamera
@@ -21636,6 +21637,28 @@ Transform:
   - {fileID: 120079623}
   m_Father: {fileID: 1784810920}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &610009048
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610009046}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &612696644 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: b8ee657c6800ab849bb30b4375d02323, type: 3}
@@ -42616,7 +42639,9 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2342623736803342509, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
+    - {fileID: 436875263019396812, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6666647001093093517, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
@@ -80760,7 +80785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 13
     NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -80805,7 +80830,7 @@ MonoBehaviour:
   reachTargetReward: 100
   crashPenalty: -0.005
   timePenalty: -0.001
-  targetReachThreshold: 2
+  targetReachThreshold: 3
   minDistanceRewardScale: 0.05
   moveAwayPenaltyScale: 0.008
 --- !u!4 &1784810920 stripped
