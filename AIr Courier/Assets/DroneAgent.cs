@@ -29,9 +29,9 @@ public class DroneAgent : Agent
     [Header("Reward settings")]
     public float distanceRewardScale = 0.01f;
     public float reachTargetReward = 100.0f;
-    public float crashPenalty = -0.005f; // penalización por choque
+    public float crashPenalty = -0.001f; // penalización por choque
     public float timePenalty = -0.001f;
-    public float targetReachThreshold = 2.0f;
+    public float targetReachThreshold = 3.0f;
     public float minDistanceRewardScale = 0.05f;   // recompensa por mejorar el récord
     public float moveAwayPenaltyScale = 0.008f;  // penaliza alejarse del récord
 
@@ -39,9 +39,12 @@ public class DroneAgent : Agent
     private float minDistanceToTarget;
     private float maxAwayFromBest;
     private float maxDistanceToTarget;
+    private int steps = 0;
 
     public override void Initialize()
     {
+        Debug.Log($"timeScale={Time.timeScale}, fixedDeltaTime={Time.fixedDeltaTime}");
+
         rb = GetComponent<Rigidbody>();
 
         // Guardamos posición y rotación iniciales del dron
@@ -96,34 +99,30 @@ public class DroneAgent : Agent
     {
         if (current_target == null)
         {
-            sensor.AddObservation(Vector3.zero); // relPos
-            sensor.AddObservation(Vector3.zero); // velocity
-            sensor.AddObservation(Vector3.forward); // forward
-            sensor.AddObservation(Vector3.up); // rotation
-            sensor.AddObservation(0f);           // altura
-            //print("Warning: current_target is null in CollectObservations");
+            sensor.AddObservation(Vector3.zero); // relLocal
+            sensor.AddObservation(0f);           // distNorm
+            sensor.AddObservation(Vector3.zero); // velLocal
+            sensor.AddObservation(Vector3.zero); // angVelLocal
+            sensor.AddObservation(Vector3.zero); // forward
+            sensor.AddObservation(Vector3.zero); // up
             return;
         }
 
-        // Posición relativa al target
         Vector3 relPos = current_target.transform.position - controller.transform.position;
-        Vector3 relLocal = controller.transform.InverseTransformDirection(relPos);
+        Vector3 relLocal = controller.transform.InverseTransformVector(relPos);
         sensor.AddObservation(relLocal);
 
-        // Velocidad del dron
+        float distNorm = Mathf.Clamp01(relPos.magnitude / Mathf.Max(0.001f, maxDistanceToTarget));
+        sensor.AddObservation(distNorm);
+
         Vector3 velLocal = controller.transform.InverseTransformDirection(rb.linearVelocity);
         sensor.AddObservation(velLocal);
 
-        // Altura, orientación
-        sensor.AddObservation(controller.transform.position.y);
+        Vector3 angVelLocal = controller.transform.InverseTransformDirection(rb.angularVelocity);
+        sensor.AddObservation(angVelLocal);
 
-        Vector3 forwardLocal = controller.transform.InverseTransformDirection(controller.transform.forward);
-        Vector3 upLocal = controller.transform.InverseTransformDirection(controller.transform.up);
-
-        sensor.AddObservation(forwardLocal);
-        sensor.AddObservation(upLocal);
-        //print("Funciona");
-
+        sensor.AddObservation(controller.transform.forward);
+        sensor.AddObservation(controller.transform.up);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -164,6 +163,7 @@ public class DroneAgent : Agent
 
     private void ComputeStepReward()
     {
+        steps += 1;
         if (current_target == null) { return; }
 
         // Distancia actual al objetivo
@@ -171,10 +171,10 @@ public class DroneAgent : Agent
 
         float distanceDelta = lastDistanceToTarget - currentDistance;
         distanceDelta = Mathf.Clamp(distanceDelta, -0.2f, 0.2f); //una especie de tangente hiperbolica para limitar la recompensa por paso
-        
+
         if (Mathf.Abs(distanceDelta) < 0.01f) distanceDelta = 0f; //para eliminar las vibraciones de unity
         AddReward(distanceDelta * distanceRewardScale);
-        
+
         //if (distanceDelta * distanceRewardScale > 0 || distanceDelta * distanceRewardScale < 0) { print("Distance delta: " + distanceDelta + ", reward: " + (distanceDelta * distanceRewardScale)); }
 
         // Recompensa por mejorar el récord de distancia mínima
@@ -211,7 +211,8 @@ public class DroneAgent : Agent
         // Comprobar si hemos llegado
         if (currentDistance < targetReachThreshold)
         {
-            //print("Target reached!");
+            print("Target reached! It took " + steps + " steps");
+            steps = 0;
             AddReward(reachTargetReward);
             //print("Reward of this episode: " + GetCumulativeReward());
             EndEpisode();
@@ -243,3 +244,4 @@ public class DroneAgent : Agent
         a[2] = yaw > 0.1f ? 1 : (yaw < -0.1f ? 2 : 0);
     }
 }
+
