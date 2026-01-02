@@ -93,8 +93,19 @@ mlagents-learn hyperparams.yaml --env="Ejecutable/AIr Courier.x86_64" --run-id=D
 ```bash
 
 AIrCourier/
-├── AIr Courier    # Unity Project
-├── README.md      # README.md file of the Github repository
-├── hyperpams.yaml # Hyperparameter configuration file for training
-└── results        # Training results storage file
+├── AIr Courier              # Unity Project
+├── README.md                # README.md file of the Github repository
+├── TRAINING_INFERENCE_GUIDE.md  # Guide for fixing training-inference mismatch issues
+├── hyperpams.yaml           # Hyperparameter configuration file for training
+└── results                  # Training results storage file
 ```
+
+## 7. Troubleshooting Training vs Inference Performance
+
+If you experience a significant performance difference between training and inference (model works well during training but poorly in Unity), see the **[TRAINING_INFERENCE_GUIDE.md](TRAINING_INFERENCE_GUIDE.md)** for detailed explanations and solutions.
+
+Common causes include:
+- Time scale differences between training and inference
+- Inconsistent observation normalization
+- Physics timestep dependencies
+- Unity project settings mismatches
