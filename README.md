@@ -96,7 +96,7 @@ AIrCourier/
 ├── AIr Courier              # Unity Project
 ├── README.md                # README.md file of the Github repository
 ├── TRAINING_INFERENCE_GUIDE.md  # Guide for fixing training-inference mismatch issues
-├── hyperpams.yaml           # Hyperparameter configuration file for training
+├── hyperparams.yaml         # Hyperparameter configuration file for training
 └── results                  # Training results storage file
 ```
 
