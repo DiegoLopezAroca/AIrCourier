@@ -41,6 +41,7 @@ public class DroneAgent : Agent
     private float maxDistanceToTarget;
     private int steps = 0;
 
+
     public override void Initialize()
     {
         Debug.Log($"timeScale={Time.timeScale}, fixedDeltaTime={Time.fixedDeltaTime}");
@@ -54,6 +55,7 @@ public class DroneAgent : Agent
 
     private void RandomTarget()
     {
+    	currentMaxRadius = Academy.Instance.EnvironmentParameters.GetWithDefault("target_distance_radius", 10f);
         // Desactivamos todos los posibles targets
         foreach (GameObject target in possible_targets)
         {
@@ -67,6 +69,13 @@ public class DroneAgent : Agent
         if (possible_targets.Count > 0)
         {
             current_target = possible_targets[UnityEngine.Random.Range(0, possible_targets.Count)];
+            
+            Vector3 randomPos = UnityEngine.Random.insideUnitSphere * currentMaxRadius;
+            randomPos.y = Mathf.Abs(randomPos.y) + 2f;
+            
+            current_target.transform.position = initialDronePosition + randomPos;
+            
+            
             initialTargetPosition = current_target.transform.position;
             current_target.SetActive(true);
         }
@@ -244,4 +253,3 @@ public class DroneAgent : Agent
         a[2] = yaw > 0.1f ? 1 : (yaw < -0.1f ? 2 : 0);
     }
 }
-
