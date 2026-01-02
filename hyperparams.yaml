@@ -11,7 +11,7 @@ behaviors:
       num_epoch: 3
     
     network_settings:
-      normalize: true
+      normalize: true  # CRITICAL: Keep this enabled for consistent observations between training and inference
       hidden_units: 128
       num_layers: 2
     

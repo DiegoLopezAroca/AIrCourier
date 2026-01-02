@@ -7,6 +7,9 @@ public class SimpleDroneController : MonoBehaviour
     public float verticalSpeed = 5f;
     public float turnSpeed = 90f;   // grados por segundo
 
+    // Fixed timestep for consistent physics across different time scales
+    private const float FIXED_DELTA_TIME = 0.02f; // Standard Unity physics timestep (50Hz)
+
     public Rigidbody rb;
 
     float inputForward;
@@ -41,8 +44,9 @@ public class SimpleDroneController : MonoBehaviour
 
         rb.linearVelocity = vel;
 
-        // Rotación en yaw
-        float yawDegrees = inputYaw * turnSpeed * Time.fixedDeltaTime;
+        // Rotación en yaw - use fixed timestep to ensure consistent behavior
+        // regardless of Time.timeScale changes between training and inference
+        float yawDegrees = inputYaw * turnSpeed * FIXED_DELTA_TIME;
         rb.MoveRotation(Quaternion.Euler(0f, yawDegrees, 0f) * rb.rotation);
     }
 }

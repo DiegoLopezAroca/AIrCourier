@@ -40,6 +40,7 @@ public class DroneAgent : Agent
     private float maxAwayFromBest;
     private float maxDistanceToTarget;
     private int steps = 0;
+    private float currentMaxRadius = 10f;
 
 
     public override void Initialize()
@@ -121,7 +122,10 @@ public class DroneAgent : Agent
         Vector3 relLocal = controller.transform.InverseTransformVector(relPos);
         sensor.AddObservation(relLocal);
 
-        float distNorm = Mathf.Clamp01(relPos.magnitude / Mathf.Max(0.001f, maxDistanceToTarget));
+        // Use fixed maximum distance for consistent normalization during training and inference
+        // This ensures the observation space remains consistent
+        float fixedMaxDistance = 50f; // Maximum expected distance in the environment
+        float distNorm = Mathf.Clamp01(relPos.magnitude / fixedMaxDistance);
         sensor.AddObservation(distNorm);
 
         Vector3 velLocal = controller.transform.InverseTransformDirection(rb.linearVelocity);
