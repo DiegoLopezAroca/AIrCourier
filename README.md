@@ -114,3 +114,13 @@ Common causes include:
 - Inconsistent observation normalization
 - Physics timestep dependencies
 - Unity project settings mismatches
+
+## 8. Curriculum Learning
+
+To bootstrap a new environment from a past training checkpoint just run:
+```bash
+mlagents-learn hyperparams.yaml --initialize-from=DroneDeliveryRunNoGraph12 --env="Executable2/AIr Courier.exe" --run-id=DroneDeliveryRunNoGraphv2_1 --no-graphics --torch-device=cuda --num-envs=7
+```
+
+"DroneDeliveryRunNoGraph12" is the folder that contains saved weights from a past training that we would like to use in this new training.
+"DroneDeliveryRunNoGraphv2_1" is the place where we will save the results of this training.
