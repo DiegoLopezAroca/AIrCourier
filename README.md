@@ -1,5 +1,9 @@
 # AICourier — ML-Agents Installation & Training Guide
-Welcome to our **Reinforcement Learning** course project where we will work with put into test all the materials learned throughout the semester into a `Unity`   project alongisde the `ML-Agents` library. The project consists of an intelligent drone trained using `RL` algorithms, capable of getting to certain arbitrary destinations placed in a *city-based* map without crashing with the other elements of the environment and in the quickest time possible.  
+Welcome to our **Reinforcement Learning** course project where we will work with put into test all the materials learned throughout the semester into a `Unity` project alongisde the `ML-Agents` library. The project consists of an intelligent drone trained using `RL` algorithms, capable of getting to certain arbitrary destinations (represented with white cubes) placed in a *city-based* map without crashing with the other elements of the environment and in the quickest time possible.  
+
+<p align="center">
+  <img src="media/air_courier_demo.gif" width="65%"/>
+</p>
 
 This guide provides complete instructions for installing `Unity ML-Agents`, setting up the Python environment, and running training using your `hyperparams.yaml` file.
 
