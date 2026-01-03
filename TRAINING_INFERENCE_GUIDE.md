@@ -5,17 +5,22 @@ When training ML-Agents models, there can be a significant performance differenc
 
 ## Root Causes
 
-### 1. **Time Scale Differences**
+### 1. **Tracking Camera**
+- **Problem**: Using a tracking camera for training and inference
+- **Impact**: It can break observations/frames during resets or due to update sequences, causing inference to fail in unusual ways
+- **Solution**: Deactivating this camera and enabling one with a fixed position
+
+### 2. **Time Scale Differences**
 - **Training**: Often runs faster than real-time (especially with `--no-graphics`)
 - **Inference**: Runs at real-time (Time.timeScale = 1.0)
 - **Impact**: Physics calculations and timing-dependent behavior differ
 
-### 2. **Observation Normalization Inconsistencies**
+### 3. **Observation Normalization Inconsistencies**
 - **Problem**: Using episode-specific values (like `maxDistanceToTarget`) for normalization
 - **Impact**: Observation distributions differ between training and inference
 - **Solution**: Use fixed, consistent normalization values
 
-### 3. **Physics Timestep Dependencies**
+### 4. **Physics Timestep Dependencies**
 - **Problem**: Using `Time.fixedDeltaTime` directly in calculations
 - **Impact**: Behavior changes with different time scales
 - **Solution**: Use hardcoded fixed timestep (0.02s for 50Hz)
@@ -127,6 +132,10 @@ After applying fixes, verify:
    - Verify discrete action branches match the model
    - Check that action mapping in `OnActionReceived()` is correct
    - Confirm no input conflicts with other scripts
+
+5. **Tracking camera**
+   - Verify if you have a camera that follows the agent
+   - If so, delete it and enable a steady camera.
 
 ## Additional Resources
 
