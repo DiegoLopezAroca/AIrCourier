@@ -28,9 +28,9 @@ public class DroneAgent : Agent
 
     [Header("Reward settings")]
     public float distanceRewardScale = 0.01f;
-    public float reachTargetReward = 100.0f;
-    public float crashPenalty = -0.001f; // penalización por choque
-    public float timePenalty = -0.001f;
+    public float reachTargetReward = 45.0f;
+    public float crashPenalty = -2f; // penalización por choque
+    public float timePenalty = -0.01f;
     public float targetReachThreshold = 3.0f;
     public float minDistanceRewardScale = 0.05f;   // recompensa por mejorar el récord
     public float moveAwayPenaltyScale = 0.008f;  // penaliza alejarse del récord
@@ -39,7 +39,9 @@ public class DroneAgent : Agent
     private float minDistanceToTarget;
     private float maxAwayFromBest;
     private float maxDistanceToTarget;
-    private int steps = 0;
+    //private int steps = 0;
+    private float initialDistanceToTarget;
+    private bool got20m, got10m, got5m;
     //private float currentMaxRadius = 10f;
 
 
@@ -56,7 +58,7 @@ public class DroneAgent : Agent
 
     private void RandomTarget()
     {
-    	//currentMaxRadius = Academy.Instance.EnvironmentParameters.GetWithDefault("target_distance_radius", 10f);
+        //currentMaxRadius = Academy.Instance.EnvironmentParameters.GetWithDefault("target_distance_radius", 10f);
         // Desactivamos todos los posibles targets
         foreach (GameObject target in possible_targets)
         {
@@ -101,6 +103,8 @@ public class DroneAgent : Agent
             minDistanceToTarget = d; // la distancia record a la que ha estado
             maxAwayFromBest = 0f;
             maxDistanceToTarget = lastDistanceToTarget;
+            initialDistanceToTarget = d;
+            got20m = got10m = got5m = false;
         }
     }
 
@@ -175,7 +179,7 @@ public class DroneAgent : Agent
 
     private void ComputeStepReward()
     {
-        steps += 1;
+        //steps += 1;
         if (current_target == null) { return; }
 
         // Distancia actual al objetivo
@@ -185,7 +189,8 @@ public class DroneAgent : Agent
         distanceDelta = Mathf.Clamp(distanceDelta, -0.2f, 0.2f); //una especie de tangente hiperbolica para limitar la recompensa por paso
 
         if (Mathf.Abs(distanceDelta) < 0.01f) distanceDelta = 0f; //para eliminar las vibraciones de unity
-        AddReward(distanceDelta * distanceRewardScale);
+        float norm = 1f / (initialDistanceToTarget + 1e-6f);
+        AddReward(distanceDelta * distanceRewardScale * norm);
 
         //if (distanceDelta * distanceRewardScale > 0 || distanceDelta * distanceRewardScale < 0) { print("Distance delta: " + distanceDelta + ", reward: " + (distanceDelta * distanceRewardScale)); }
 
@@ -203,7 +208,7 @@ public class DroneAgent : Agent
         else
         {
             // Se ha alejado del récord
-            float remoteness = (currentDistance - minDistanceToTarget) - 1.0f; // le meto un metro de tolerancia para que pueda rodear objetos sin penalizar
+            float remoteness = (currentDistance - minDistanceToTarget) - 4.0f; // le meto un metro de tolerancia para que pueda rodear objetos sin penalizar
             if (remoteness > maxAwayFromBest)
             {
                 float penalty = (remoteness - maxAwayFromBest) * moveAwayPenaltyScale;
@@ -220,11 +225,15 @@ public class DroneAgent : Agent
         // Penalización por tiempo
         AddReward(timePenalty);
 
+        if (!got20m && currentDistance < 20f) { AddReward(0.5f); got20m = true; }
+        if (!got10m && currentDistance < 10f) { AddReward(1.0f); got10m = true; }
+        if (!got5m && currentDistance < 5f) { AddReward(2.0f); got5m = true; }
+
         // Comprobar si hemos llegado
         if (currentDistance < targetReachThreshold)
         {
-            print("Target reached! It took " + steps + " steps");
-            steps = 0;
+            //print("Target reached! It took " + steps + " steps");
+            //steps = 0;
             AddReward(reachTargetReward);
             //print("Reward of this episode: " + GetCumulativeReward());
             EndEpisode();

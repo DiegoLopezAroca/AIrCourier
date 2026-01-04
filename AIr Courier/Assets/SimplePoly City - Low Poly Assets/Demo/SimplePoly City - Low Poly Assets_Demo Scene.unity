@@ -10011,14 +10011,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268888974}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.565796, y: 7.2320004, z: -28.839714}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalRotation: {x: 0.10274604, y: 0.30112037, z: 0.12973303, w: 0.9391161}
+  m_LocalPosition: {x: 49.41, y: 68.9, z: -106.67}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 557813069}
   m_Father: {fileID: 2124062211}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.595, y: 36.597, z: 17.914}
 --- !u!95 &268888976
 Animator:
   serializedVersion: 7
@@ -44589,9 +44589,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4277102766993258619, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1784810933}
-    - targetCorrespondingSourceObject: {fileID: 4277102766993258619, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1784810934}
   m_SourcePrefab: {fileID: 100100000, guid: 3bd6637ef6efedd4792f1be966bbab59, type: 3}
 --- !u!54 &1110110439 stripped
 Rigidbody:
@@ -83951,8 +83948,8 @@ MonoBehaviour:
     m_Bits: 8
   spawnPoint: {fileID: 339703600}
   distanceRewardScale: 0.01
-  reachTargetReward: 100
-  crashPenalty: -5
+  reachTargetReward: 45
+  crashPenalty: -2
   timePenalty: -0.01
   targetReachThreshold: 3
   minDistanceRewardScale: 0.05
@@ -84027,22 +84024,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4199562, y: 0.2637168, z: 0.46869677}
   m_Center: {x: 0.0034859977, y: -0.0001612107, z: 0.0014878114}
---- !u!114 &1784810934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784810908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Agent
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
 --- !u!1001 &1784861958
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,0 +1,60 @@
+behaviors:
+  DroneDelivery:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 1024
+      buffer_size: 20480
+      learning_rate: 3.0e-4
+      beta: 5.0e-4
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 3
+    
+    network_settings:
+      normalize: true
+      hidden_units: 128
+      num_layers: 2
+    
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+   
+    max_steps: 1500000
+    time_horizon: 128
+    summary_freq: 5000
+    checkpoint_interval: 150000
+    keep_checkpoints: 20
+
+environment_parameters:
+  target_distance_radius:
+    curriculum:
+      - name: Lesson0_VeryClose
+        completion_criteria:
+          behavior: DroneDelivery
+          measure: reward
+          threshold: 20.0
+          min_lesson_length: 200
+          signal_smoothing: true
+        value: 5.0
+      
+      - name: Lesson1_ShortFlight
+        completion_criteria:
+          behavior: DroneDelivery
+          measure: reward
+          threshold: 45.0
+          min_lesson_length: 500
+          signal_smoothing: true
+        value: 12.0
+      
+      - name: Lesson2_MediumRange
+        completion_criteria:
+          behavior: DroneDelivery
+          measure: reward
+          threshold: 70.0
+          min_lesson_length: 500
+          signal_smoothing: true
+        value: 20.0
+      
+      - name: Lesson3_FullRange
+        value: 35.0
