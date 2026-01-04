@@ -1,4 +1,9 @@
 # AICourier — ML-Agents Installation & Training Guide
+Welcome to our **Reinforcement Learning** course project where we will work with put into test all the materials learned throughout the semester into a `Unity` project alongisde the `ML-Agents` library. The project consists of an intelligent drone trained using `RL` algorithms, capable of getting to certain arbitrary destinations (represented with white cubes) placed in a *city-based* map without crashing with the other elements of the environment and in the quickest time possible.  
+
+<p align="center">
+  <img src="media/air_courier_demo.gif" width="65%"/>
+</p>
 
 This guide provides complete instructions for installing `Unity ML-Agents`, setting up the Python environment, and running training using your `hyperparams.yaml` file.
 
@@ -97,7 +102,7 @@ AIrCourier/
 ├── README.md                # README.md file of the Github repository
 ├── TRAINING_INFERENCE_GUIDE.md  # Guide for fixing training-inference mismatch issues
 ├── hyperparams.yaml         # Hyperparameter configuration file for training
-└── results                  # Training results storage file
+└── media                # Media files storing directory
 ```
 
 ## 7. Troubleshooting Training vs Inference Performance
@@ -109,3 +114,13 @@ Common causes include:
 - Inconsistent observation normalization
 - Physics timestep dependencies
 - Unity project settings mismatches
+
+## 8. Curriculum Learning
+
+To bootstrap a new environment from a past training checkpoint just run:
+```bash
+mlagents-learn hyperparams.yaml --initialize-from=DroneDeliveryRunNoGraph12 --env="Executable2/AIr Courier.exe" --run-id=DroneDeliveryRunNoGraphv2_1 --no-graphics --torch-device=cuda --num-envs=7
+```
+
+"DroneDeliveryRunNoGraph12" is the folder that contains saved weights from a past training that we would like to use in this new training.
+"DroneDeliveryRunNoGraphv2_1" is the place where we will save the results of this training.
