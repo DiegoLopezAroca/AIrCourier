@@ -113,3 +113,9 @@ results/*
 /Executable2
 /Executable2_2nd_try
 /Executable2_3rd_try
+/Executable2_4th_try
+/Executable2_5th_try
+*.mp4
+*.onnx
+*.meta
+*.onnx
